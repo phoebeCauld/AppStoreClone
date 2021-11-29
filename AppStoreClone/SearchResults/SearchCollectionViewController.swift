@@ -13,16 +13,26 @@ private let searchCellId = "searchCell"
 class SearchCollectionViewController: UICollectionViewController {
 
     private var searchResults:[Results] = []
+    private let searchController = UISearchController(searchResultsController: nil)
+    private var timer: Timer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView.register(SearchCollectionViewCell.self, forCellWithReuseIdentifier: searchCellId)
         fetchSearchResults()
+        setupSearchController()
     }
     
     
+    private func setupSearchController(){
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        searchController.hidesNavigationBarDuringPresentation = true
+        searchController.searchBar.delegate = self
+    }
+    
     func fetchSearchResults(){
-        NetworkManager.shared.fetchSearchResults { results, error in
+        NetworkManager.shared.fetchSearchResults(searchText: "instagram") { results, error in
             if let error = error {
                 print("Failed fetching with:", error)
             }
@@ -57,5 +67,22 @@ extension SearchCollectionViewController: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: view.frame.width, height: 350)
+    }
+}
+
+extension SearchCollectionViewController: UISearchBarDelegate {
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false) { _ in
+            NetworkManager.shared.fetchSearchResults(searchText: searchText) { results, error in
+                if let error = error {
+                    print("Failed fetching with:", error)
+                }
+                self.searchResults = results
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
+        }
     }
 }
