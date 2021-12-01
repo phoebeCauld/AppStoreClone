@@ -6,11 +6,13 @@
 //
 
 import UIKit
+import SDWebImage
 
 class HeaderCollectionViewController: UICollectionViewController {
 
     private let reuseIdentifier = "Cell3"
-
+    var headerGroup = [AppsNewsModel]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView!.register(HeaderCell.self, forCellWithReuseIdentifier: reuseIdentifier)
@@ -22,11 +24,15 @@ class HeaderCollectionViewController: UICollectionViewController {
 
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return headerGroup.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath)
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! HeaderCell
+        let app = headerGroup[indexPath.item]
+        cell.companyLabel.text = app.name
+        cell.titleLabel.text = app.tagline
+        cell.appImage.sd_setImage(with: URL(string: app.imageUrl))
         return cell
     }
     
