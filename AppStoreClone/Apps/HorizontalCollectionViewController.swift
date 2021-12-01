@@ -7,40 +7,33 @@
 
 import UIKit
 
-class HorizontalCollectionViewController: UICollectionViewController {
+class HorizontalCollectionViewController: HorizontalSnappingView {
 
     private let reuseIdentifier = "CellId2"
-    var topFreeApps: AppsFetch?
-    
+    var fetchedApps: AppsFetch?
+    var didSelectItem: ((FeedResults) -> ())?
     override func viewDidLoad() {
         super.viewDidLoad()
         self.collectionView!.register(AppsCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
-        if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection = .horizontal
-        }
-
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return topFreeApps?.feed.results.count ?? 0
+        return fetchedApps?.feed.results.count ?? 0
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! AppsCell
-        let app = topFreeApps?.feed.results[indexPath.item]
+        let app = fetchedApps?.feed.results[indexPath.item]
         cell.nameLabel.text = app?.name
         cell.companyLabel.text = app?.artistName
         cell.iconImage.sd_setImage(with: URL(string: app?.artworkUrl100 ?? ""))
         return cell
     }
     
-    init(){
-        super.init(collectionViewLayout: UICollectionViewFlowLayout())
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if let item = fetchedApps?.feed.results[indexPath.item]{
+            didSelectItem?(item)
+        }
     }
 }
 

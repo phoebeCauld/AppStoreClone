@@ -13,7 +13,6 @@ class HeaderView: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        horizontalController.view.backgroundColor = .blue
         addSubview(horizontalController.view)
         setConstraints()
     }

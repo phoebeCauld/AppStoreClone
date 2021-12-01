@@ -8,7 +8,7 @@
 import UIKit
 import SDWebImage
 
-class HeaderCollectionViewController: UICollectionViewController {
+class HeaderCollectionViewController: HorizontalSnappingView {
 
     private let reuseIdentifier = "Cell3"
     var headerGroup = [AppsNewsModel]()
@@ -16,10 +16,10 @@ class HeaderCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView!.register(HeaderCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
-        if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
-            layout.scrollDirection = .horizontal
-        }
+//        
+//        if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
+//            layout.scrollDirection = .horizontal
+//        }
     }
 
 
@@ -35,23 +35,19 @@ class HeaderCollectionViewController: UICollectionViewController {
         cell.appImage.sd_setImage(with: URL(string: app.imageUrl))
         return cell
     }
-    
-    init(){
-        super.init(collectionViewLayout: UICollectionViewFlowLayout())
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
 }
 
 
 extension HeaderCollectionViewController: UICollectionViewDelegateFlowLayout{
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width-40, height: view.frame.height)
+        return CGSize(width: view.frame.width-SizeConstants.rightLeftSize*2.5, height: view.frame.height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return SizeConstants.lineSpacing
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return .init(top: 0, left: 16, bottom: 0, right: 0)
+        return .init(top: 0, left: SizeConstants.rightLeftSize, bottom: 0, right: SizeConstants.rightLeftSize)
     }
 }

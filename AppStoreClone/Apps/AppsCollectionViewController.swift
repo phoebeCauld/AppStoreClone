@@ -91,8 +91,13 @@ class AppsCollectionViewController: UICollectionViewController {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! AppsCollectionViewCell
         let apps = appsArray[indexPath.item]
         cell.titleLabel.text = apps.feed.title
-        cell.horizontalController.topFreeApps = apps
+        cell.horizontalController.fetchedApps = apps
         cell.horizontalController.collectionView.reloadData()
+        cell.horizontalController.didSelectItem = { app in
+            let detailVC = DetailAppsController()
+            detailVC.appId = app.id
+            self.navigationController?.pushViewController(detailVC, animated: true)
+        }
         return cell
     }
     

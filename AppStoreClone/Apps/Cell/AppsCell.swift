@@ -11,7 +11,6 @@ class AppsCell: UICollectionViewCell {
     
     let iconImage: UIImageView = {
         let iv = UIImageView()
-        iv.backgroundColor = .blue
         iv.layer.cornerRadius = 12
         iv.widthAnchor.constraint(equalToConstant: 64).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 64).isActive = true
