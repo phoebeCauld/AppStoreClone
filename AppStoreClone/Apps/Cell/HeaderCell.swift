@@ -30,7 +30,6 @@ class HeaderCell: UICollectionViewCell {
         iv.contentMode = .scaleAspectFill
         iv.layer.cornerRadius = 10
         iv.clipsToBounds = true
-        iv.backgroundColor = .blue
         return iv
     }()
     

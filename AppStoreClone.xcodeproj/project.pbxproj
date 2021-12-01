@@ -17,6 +17,9 @@
 		2D13896C2753AD4100CCED93 /* SearchCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D13896B2753AD4100CCED93 /* SearchCollectionViewController.swift */; };
 		2D163D6F2757D21B002AAF6F /* AppsNewsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D163D6E2757D21B002AAF6F /* AppsNewsModel.swift */; };
 		2D163D712757D747002AAF6F /* AppsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D163D702757D747002AAF6F /* AppsView.swift */; };
+		2D163D732757F7D4002AAF6F /* HorizontalSnappingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D163D722757F7D4002AAF6F /* HorizontalSnappingView.swift */; };
+		2D163D7527580091002AAF6F /* DetailAppsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D163D7427580091002AAF6F /* DetailAppsController.swift */; };
+		2D163D7727580B23002AAF6F /* DetailViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D163D7627580B23002AAF6F /* DetailViewCell.swift */; };
 		2D263F192755343F0039AC5F /* AppsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D263F182755343F0039AC5F /* AppsCollectionViewController.swift */; };
 		2D263F1D275535400039AC5F /* AppsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D263F1C275535400039AC5F /* AppsCollectionViewCell.swift */; };
 		2D263F1F2755364E0039AC5F /* HorizontalCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D263F1E2755364E0039AC5F /* HorizontalCollectionViewController.swift */; };
@@ -48,6 +51,9 @@
 		2D13896B2753AD4100CCED93 /* SearchCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCollectionViewController.swift; sourceTree = "<group>"; };
 		2D163D6E2757D21B002AAF6F /* AppsNewsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsNewsModel.swift; sourceTree = "<group>"; };
 		2D163D702757D747002AAF6F /* AppsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsView.swift; sourceTree = "<group>"; };
+		2D163D722757F7D4002AAF6F /* HorizontalSnappingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSnappingView.swift; sourceTree = "<group>"; };
+		2D163D7427580091002AAF6F /* DetailAppsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAppsController.swift; sourceTree = "<group>"; };
+		2D163D7627580B23002AAF6F /* DetailViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewCell.swift; sourceTree = "<group>"; };
 		2D263F182755343F0039AC5F /* AppsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsCollectionViewController.swift; sourceTree = "<group>"; };
 		2D263F1C275535400039AC5F /* AppsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsCollectionViewCell.swift; sourceTree = "<group>"; };
 		2D263F1E2755364E0039AC5F /* HorizontalCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionViewController.swift; sourceTree = "<group>"; };
@@ -127,6 +133,9 @@
 				2D263F182755343F0039AC5F /* AppsCollectionViewController.swift */,
 				2D263F1E2755364E0039AC5F /* HorizontalCollectionViewController.swift */,
 				2D44D1BE27555F4A0000A749 /* HeaderCollectionViewController.swift */,
+				2D163D7427580091002AAF6F /* DetailAppsController.swift */,
+				2D163D7627580B23002AAF6F /* DetailViewCell.swift */,
+				2D163D702757D747002AAF6F /* AppsView.swift */,
 				2D44D1C2275565500000A749 /* Model */,
 				2D263F1B275535290039AC5F /* Cell */,
 			);
@@ -149,7 +158,6 @@
 			children = (
 				2D44D1C32755656F0000A749 /* AppsFetchModel.swift */,
 				2D163D6E2757D21B002AAF6F /* AppsNewsModel.swift */,
-				2D163D702757D747002AAF6F /* AppsView.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -177,6 +185,7 @@
 			isa = PBXGroup;
 			children = (
 				2DF6F7442753E0F500E28BA2 /* VerticalStackView.swift */,
+				2D163D722757F7D4002AAF6F /* HorizontalSnappingView.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -326,6 +335,7 @@
 				2DF6F7432753CABC00E28BA2 /* SearchCellView.swift in Sources */,
 				2D13896C2753AD4100CCED93 /* SearchCollectionViewController.swift in Sources */,
 				2D13895A2753A04600CCED93 /* ViewController.swift in Sources */,
+				2D163D7727580B23002AAF6F /* DetailViewCell.swift in Sources */,
 				2D44D1C12755607A0000A749 /* HeaderCell.swift in Sources */,
 				2D163D6F2757D21B002AAF6F /* AppsNewsModel.swift in Sources */,
 				2DF6F7412753CA6000E28BA2 /* SearchCollectionViewCell.swift in Sources */,
@@ -333,7 +343,9 @@
 				2D263F192755343F0039AC5F /* AppsCollectionViewController.swift in Sources */,
 				2D263F1D275535400039AC5F /* AppsCollectionViewCell.swift in Sources */,
 				2DF6F75027540D5800E28BA2 /* NetworkManager.swift in Sources */,
+				2D163D732757F7D4002AAF6F /* HorizontalSnappingView.swift in Sources */,
 				2D13896A2753A32800CCED93 /* TabBarController.swift in Sources */,
+				2D163D7527580091002AAF6F /* DetailAppsController.swift in Sources */,
 				2DF6F7452753E0F500E28BA2 /* VerticalStackView.swift in Sources */,
 				2D1389562753A04600CCED93 /* AppDelegate.swift in Sources */,
 				2D1389582753A04600CCED93 /* SceneDelegate.swift in Sources */,
