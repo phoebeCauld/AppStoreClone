@@ -11,39 +11,42 @@ class NetworkManager {
     
     static let shared = NetworkManager()
     
-    func fetchSearchResults(searchText: String, completion: @escaping ([Results], Error?) -> ()){
+    func fetchSearchResults(searchText: String, completion: @escaping (SearchResultsModel?, Error?) -> ()){
         let urlStr = "https://itunes.apple.com/search?term=\(searchText)&entity=software"
-        guard let url = URL(string: urlStr) else { return }
-        
-        URLSession.shared.dataTask(with: url) { data, resp, error in
-            if let error = error {
-                print("Fetching failed with:", error.localizedDescription)
-                completion([], nil)
-                return
-            }
-            if let data = data {
-                do {
-                    let searchResultData = try JSONDecoder().decode(SearchResultsModel.self, from: data)
-                    completion(searchResultData.results, nil)
-                } catch let error {
-                    print("Decoding failed with:", error)
-                    completion([], error)
-                }
-            }
-        }.resume()
+        fetchGenericsData(urlString: urlStr, completion: completion)
     }
     
-    func fetchGames(completion: @escaping (AppsFetch?, Error?) -> ()) {
-        guard let url = URL(string: "https://rss.applemarketingtools.com/api/v2/us/apps/top-free/50/apps.json") else { return }
+    func fetchAppsNewData(completion: @escaping ([AppsNewsModel]?, Error?) -> ()) {
+        let urlString = "https://api.letsbuildthatapp.com/appstore/social"
+        fetchGenericsData(urlString: urlString, completion: completion)
+    }
+    
+    func fetchTopFreeApps(completion: @escaping (AppsFetch?, Error?) -> ()) {
+        let urlString = "https://rss.applemarketingtools.com/api/v2/us/apps/top-free/25/apps.json"
+        fetchApps(with: urlString, completion: completion)
+    }
+    
+    func fetchTopPaidApps(completion: @escaping (AppsFetch?, Error?) -> ()) {
+        let urlString = "https://rss.applemarketingtools.com/api/v2/us/apps/top-paid/25/apps.json"
+        fetchApps(with: urlString, completion: completion)
+    }
+    
+    
+    func fetchApps(with url: String, completion: @escaping (AppsFetch?, Error?) -> ()){
+        fetchGenericsData(urlString: url, completion: completion)
+    }
+    
+    func fetchGenericsData<T: Decodable>(urlString: String, completion: @escaping(T?, Error?) -> Void){
+        guard let url = URL(string: urlString) else { return }
         URLSession.shared.dataTask(with: url) { data, response, error in
             if let error = error {
                 print("Fetching data failed with: \(error.localizedDescription)")
                 completion(nil, error)
                 return
-            }        
+            }
             if let data = data {
                 do {
-                    let decodedData = try JSONDecoder().decode(AppsFetch.self, from: data)
+                    let decodedData = try JSONDecoder().decode(T.self, from: data)
                     completion(decodedData, nil)
                 } catch let error {
                     print("Decoding failed with: \(error)")

@@ -9,7 +9,7 @@ import UIKit
 
 class HeaderView: UICollectionReusableView {
     
-    private let horizontalController = HeaderCollectionViewController()
+     let horizontalController = HeaderCollectionViewController()
     
     override init(frame: CGRect) {
         super.init(frame: frame)

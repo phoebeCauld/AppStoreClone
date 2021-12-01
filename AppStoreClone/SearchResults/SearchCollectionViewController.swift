@@ -36,7 +36,7 @@ class SearchCollectionViewController: UICollectionViewController {
             if let error = error {
                 print("Failed fetching with:", error)
             }
-            self.searchResults = results
+            self.searchResults = results?.results ?? []
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
@@ -78,7 +78,7 @@ extension SearchCollectionViewController: UISearchBarDelegate {
                 if let error = error {
                     print("Failed fetching with:", error)
                 }
-                self.searchResults = results
+                self.searchResults = results?.results ?? []
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
