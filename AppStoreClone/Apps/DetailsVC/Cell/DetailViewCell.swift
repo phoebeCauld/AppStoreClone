@@ -9,6 +9,15 @@ import UIKit
 
 class DetailViewCell: UICollectionViewCell {
     
+    var details: Results?{
+        didSet {
+            iconImage.sd_setImage(with: URL(string: details?.artworkUrl100 ?? ""))
+            nameLabel.text = details?.trackName
+            notesLabel.text = details?.releaseNotes
+            priceButton.setTitle(details?.formattedPrice, for: .normal)
+        }
+    }
+    
     let iconImage: UIImageView = {
         let iv = UIImageView()
         iv.layer.cornerRadius = 12
@@ -22,7 +31,7 @@ class DetailViewCell: UICollectionViewCell {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "App name"
-        label.font = .boldSystemFont(ofSize: 20)
+        label.font = .boldSystemFont(ofSize: 25)
         label.numberOfLines = 2
         return label
     }()
@@ -38,7 +47,7 @@ class DetailViewCell: UICollectionViewCell {
     let whatsNewLabel: UILabel = {
         let label = UILabel()
         label.text = "What's new"
-        label.font = .boldSystemFont(ofSize: 17)
+        label.font = .boldSystemFont(ofSize: 20)
         label.numberOfLines = 1
         return label
     }()
@@ -62,9 +71,8 @@ class DetailViewCell: UICollectionViewCell {
         let nameAndIconStack = UIStackView(arrangedSubviews: [
         iconImage,
         VerticalStackView(arrangedSubviews: [nameLabel,
-                                             priceButton,
-        ]),
-        UIView()])
+                                             UIStackView(arrangedSubviews: [priceButton, UIView()]),
+                                            ])])
         nameAndIconStack.spacing = 12
         let stack = VerticalStackView(arrangedSubviews: [
         nameAndIconStack, whatsNewLabel, notesLabel
@@ -75,7 +83,8 @@ class DetailViewCell: UICollectionViewCell {
             stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16)
+            stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            priceButton.widthAnchor.constraint(equalToConstant: 70)
         ])
     }
     

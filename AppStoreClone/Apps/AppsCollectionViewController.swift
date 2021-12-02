@@ -58,9 +58,6 @@ class AppsCollectionViewController: UICollectionViewController {
             }
             if let apps = apps {
                 self.headerGroup = apps
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
             }
         }
         

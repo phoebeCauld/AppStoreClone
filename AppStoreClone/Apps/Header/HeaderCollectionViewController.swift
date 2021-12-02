@@ -16,10 +16,6 @@ class HeaderCollectionViewController: HorizontalSnappingView {
     override func viewDidLoad() {
         super.viewDidLoad()
         collectionView!.register(HeaderCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-//        
-//        if let layout = collectionViewLayout as? UICollectionViewFlowLayout {
-//            layout.scrollDirection = .horizontal
-//        }
     }
 
 
@@ -45,9 +41,5 @@ extension HeaderCollectionViewController: UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return SizeConstants.lineSpacing
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return .init(top: 0, left: SizeConstants.rightLeftSize, bottom: 0, right: SizeConstants.rightLeftSize)
     }
 }
