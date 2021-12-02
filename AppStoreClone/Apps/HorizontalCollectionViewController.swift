@@ -52,9 +52,9 @@ extension HorizontalCollectionViewController: UICollectionViewDelegateFlowLayout
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 10,
-                            left: SizeConstants.rightLeftSize,
+                            left: 0,
                             bottom: 10,
-                            right: SizeConstants.rightLeftSize)
+                            right: 0)
     }
 }
 
