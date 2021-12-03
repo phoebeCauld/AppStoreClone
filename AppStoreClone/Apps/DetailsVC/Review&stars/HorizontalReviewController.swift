@@ -12,6 +12,12 @@ import UIKit
 class HorizontalReviewController: HorizontalSnappingView {
 
     private let horizontalId = "horizontalReviewId"
+    var reviews: ReviewsFeed?{
+        didSet{
+            self.collectionView.reloadData()
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -20,11 +26,15 @@ class HorizontalReviewController: HorizontalSnappingView {
 
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return reviews?.entry.count ?? 0
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: horizontalId, for: indexPath) as! HorizontalReviewCell
+        let entry = reviews?.entry[indexPath.item]
+        cell.titleLabel.text = entry?.title.label
+        cell.authorLabel.text = entry?.author.name.label
+        cell.bodyLabel.text = entry?.content.label
         return cell
     }
 }
