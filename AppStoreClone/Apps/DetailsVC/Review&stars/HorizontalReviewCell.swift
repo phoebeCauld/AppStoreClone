@@ -13,6 +13,7 @@ class HorizontalReviewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "REVIEW NAME"
         label.font = .boldSystemFont(ofSize: 20)
+        label.setContentCompressionResistancePriority(.init(0), for: .horizontal)
         return label
     }()
     
@@ -20,6 +21,8 @@ class HorizontalReviewCell: UICollectionViewCell {
         let label = UILabel()
         label.text = "Random author"
         label.font = .systemFont(ofSize: 16)
+        label.textColor = .gray
+        label.textAlignment = .right
         return label
     }()
     
@@ -46,8 +49,9 @@ class HorizontalReviewCell: UICollectionViewCell {
     }
     
     func setConstraints(){
-        let topStack = UIStackView(arrangedSubviews: [titleLabel,UIView(), authorLabel])
-        topStack.spacing = 40
+        let topStack = UIStackView(arrangedSubviews: [titleLabel, authorLabel])
+        topStack.spacing = 20
+        
         let stack = VerticalStackView(arrangedSubviews: [
             topStack,
             starsLabel,
@@ -55,10 +59,10 @@ class HorizontalReviewCell: UICollectionViewCell {
         ], spacing: 12)
         addSubview(stack)
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
-            stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            stack.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -16),
+            stack.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
+            stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
+            stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
+            stack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
         ])
     }
     

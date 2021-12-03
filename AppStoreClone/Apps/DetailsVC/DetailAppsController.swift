@@ -17,16 +17,32 @@ class DetailAppsController: UICollectionViewController {
         didSet {
             let urlString = "https://itunes.apple.com/lookup?id=\(appId ?? "")"
             NetworkManager.shared.fetchGenericsData(urlString: urlString, completion: { (res: SearchResultsModel?, error) in
+                if let error = error{
+                    print("Failed fetching app data:\(error)")
+                }
                 let app = res?.results.first
                 self.app = app
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()
                 }
             })
+            
+            let url = "https://itunes.apple.com/us/rss/customerreviews/id=\(appId ?? "")/mostrecent/json"
+            NetworkManager.shared.fetchGenericsData(urlString: url) { (reviews: ReviewsModel?, error) in
+                if let error = error{
+                    print("Failed fetching reviews data:\(error)")
+                }
+                let review = reviews?.feed
+                self.reviews = review
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            }
         }
     }
     
     private var app: Results?
+    private var reviews: ReviewsFeed?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,6 +68,7 @@ class DetailAppsController: UICollectionViewController {
             return cell
         }
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reviewCellId, for: indexPath) as! ReviewViewCell
+        cell.horizontalView.reviews = reviews
         return cell
     }
     
