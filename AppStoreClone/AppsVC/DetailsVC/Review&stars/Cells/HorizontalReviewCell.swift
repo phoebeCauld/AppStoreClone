@@ -33,11 +33,26 @@ class HorizontalReviewCell: UICollectionViewCell {
         return label
     }()
     
+    let starsStack: UIStackView = {
+        var subviews = [UIView]()
+        (0..<5).forEach { _ in
+            let stars = UIImageView()
+            stars.image = UIImage(systemName: "star.fill")
+            stars.tintColor = .systemYellow
+            stars.widthAnchor.constraint(equalToConstant: 24).isActive = true
+            stars.heightAnchor.constraint(equalToConstant: 24).isActive = true
+            subviews.append(stars)
+        }
+        let stack = UIStackView(arrangedSubviews: subviews)
+        stack.addArrangedSubview(UIView())
+        return stack
+    }()
+    
     let bodyLabel: UILabel = {
         let label = UILabel()
         label.text = "Some text\nSome Text\nSome Text\nSome Text"
         label.font = .systemFont(ofSize: 16)
-        label.numberOfLines = 0
+        label.numberOfLines = 5
         return label
     }()
     
@@ -54,15 +69,15 @@ class HorizontalReviewCell: UICollectionViewCell {
         
         let stack = VerticalStackView(arrangedSubviews: [
             topStack,
-            starsLabel,
+            starsStack,
             bodyLabel
-        ], spacing: 12)
-        addSubview(stack)
+        ], spacing: 8)
+           addSubview(stack)
+        
         NSLayoutConstraint.activate([
-            stack.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
-            stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            stack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
+            stack.topAnchor.constraint(equalTo: self.topAnchor, constant: 20),
+            stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 20),
+            stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -20)
         ])
     }
     

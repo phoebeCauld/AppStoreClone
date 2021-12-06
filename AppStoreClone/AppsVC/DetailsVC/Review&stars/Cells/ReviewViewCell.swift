@@ -30,11 +30,12 @@ class ReviewViewCell: UICollectionViewCell {
         contentView.addSubview(horizontalView.view)
         
         NSLayoutConstraint.activate([
-            reveiwTitle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 20),
-            reveiwTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            reveiwTitle.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
+            reveiwTitle.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                constant: 16),
             reveiwTitle.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             
-            horizontalView.view.topAnchor.constraint(equalTo: reveiwTitle.bottomAnchor, constant: 20),
+            horizontalView.view.topAnchor.constraint(equalTo: reveiwTitle.bottomAnchor, constant: 16),
             horizontalView.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             horizontalView.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             horizontalView.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)

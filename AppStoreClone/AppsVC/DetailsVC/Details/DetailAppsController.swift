@@ -13,36 +13,14 @@ class DetailAppsController: UICollectionViewController {
     private let previewCellId = "previewCellId"
     private let reviewCellId = "reviewCellId"
     
-    var appId: String! {
-        didSet {
-            let urlString = "https://itunes.apple.com/lookup?id=\(appId ?? "")"
-            NetworkManager.shared.fetchGenericsData(urlString: urlString, completion: { (res: SearchResultsModel?, error) in
-                if let error = error{
-                    print("Failed fetching app data:\(error)")
-                }
-                let app = res?.results.first
-                self.app = app
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-            })
-            
-            let url = "https://itunes.apple.com/us/rss/customerreviews/id=\(appId ?? "")/mostrecent/json"
-            NetworkManager.shared.fetchGenericsData(urlString: url) { (reviews: ReviewsModel?, error) in
-                if let error = error{
-                    print("Failed fetching reviews data:\(error)")
-                }
-                let review = reviews?.feed
-                self.reviews = review
-                DispatchQueue.main.async {
-                    self.collectionView.reloadData()
-                }
-            }
-        }
-    }
-    
+    fileprivate let appId: String
     private var app: Results?
     private var reviews: ReviewsFeed?
+    
+    init(appId: String){
+        self.appId = appId
+        super.init(collectionViewLayout: UICollectionViewFlowLayout())
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +28,33 @@ class DetailAppsController: UICollectionViewController {
         collectionView.register(DetailViewCell.self, forCellWithReuseIdentifier: cellId)
         collectionView.register(PreviewCell.self, forCellWithReuseIdentifier: previewCellId)
         collectionView.register(ReviewViewCell.self, forCellWithReuseIdentifier: reviewCellId)
-
+        fetchData()
+    }
+    
+    func fetchData(){
+        let urlString = "https://itunes.apple.com/lookup?id=\(appId)"
+        NetworkManager.shared.fetchGenericsData(urlString: urlString, completion: { (res: SearchResultsModel?, error) in
+            if let error = error{
+                print("Failed fetching app data:\(error)")
+            }
+            let app = res?.results.first
+            self.app = app
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        })
+        
+        let url = "https://itunes.apple.com/us/rss/customerreviews/id=\(appId)/mostrecent/json"
+        NetworkManager.shared.fetchGenericsData(urlString: url) { (reviews: ReviewsModel?, error) in
+            if let error = error{
+                print("Failed fetching reviews data:\(error)")
+            }
+            let review = reviews?.feed
+            self.reviews = review
+            DispatchQueue.main.async {
+                self.collectionView.reloadData()
+            }
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -72,9 +76,6 @@ class DetailAppsController: UICollectionViewController {
         return cell
     }
     
-    init(){
-        super.init(collectionViewLayout: UICollectionViewFlowLayout())
-    }
     required init?(coder: NSCoder) {
         fatalError()
     }
@@ -95,9 +96,13 @@ extension DetailAppsController: UICollectionViewDelegateFlowLayout{
         } else  if indexPath.item == 1{
             height = 500
         } else {
-            height = 250
+            height = 280
         }
         
         return CGSize(width: view.frame.width, height: height)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return .init(top: 0, left: 0, bottom: 16, right: 0)
     }
 }
