@@ -91,8 +91,7 @@ class AppsCollectionViewController: UICollectionViewController {
         cell.horizontalController.fetchedApps = apps
         cell.horizontalController.collectionView.reloadData()
         cell.horizontalController.didSelectItem = { app in
-            let detailVC = DetailAppsController()
-            detailVC.appId = app.id
+            let detailVC = DetailAppsController(appId: app.id)
             self.navigationController?.pushViewController(detailVC, animated: true)
         }
         return cell

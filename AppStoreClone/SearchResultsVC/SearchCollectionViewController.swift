@@ -53,6 +53,12 @@ class SearchCollectionViewController: UICollectionViewController {
         return cell
     }
     
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let detailVC = DetailAppsController(appId: String(searchResults[indexPath.item].trackId))
+        navigationController?.pushViewController(detailVC, animated: true)
+    }
+    
     
     init(){
         super.init(collectionViewLayout: UICollectionViewFlowLayout())

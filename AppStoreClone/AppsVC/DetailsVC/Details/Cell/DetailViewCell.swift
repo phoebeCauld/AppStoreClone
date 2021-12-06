@@ -22,7 +22,6 @@ class DetailViewCell: UICollectionViewCell {
         let iv = UIImageView()
         iv.layer.cornerRadius = 12
         iv.clipsToBounds = true
-        iv.backgroundColor = .blue
         iv.widthAnchor.constraint(equalToConstant: 140).isActive = true
         iv.heightAnchor.constraint(equalToConstant: 140).isActive = true
         return iv
@@ -39,7 +38,7 @@ class DetailViewCell: UICollectionViewCell {
     let notesLabel: UILabel = {
         let label = UILabel()
         label.text = "text about new cool things in app"
-        label.font = .systemFont(ofSize: 15)
+        label.font = .systemFont(ofSize: 16)
         label.numberOfLines = 0
         return label
     }()
@@ -71,9 +70,9 @@ class DetailViewCell: UICollectionViewCell {
         let nameAndIconStack = UIStackView(arrangedSubviews: [
         iconImage,
         VerticalStackView(arrangedSubviews: [nameLabel,
-                                             UIStackView(arrangedSubviews: [priceButton, UIView()]),
-                                            ])])
-        nameAndIconStack.spacing = 12
+                                             UIStackView(arrangedSubviews: [priceButton, UIView()]), UIView()
+                                            ], spacing: 16)])
+        nameAndIconStack.spacing = 16
         let stack = VerticalStackView(arrangedSubviews: [
         nameAndIconStack, whatsNewLabel, notesLabel
         ], spacing: 12)
