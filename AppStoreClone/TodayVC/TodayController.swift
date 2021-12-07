@@ -10,7 +10,13 @@ import UIKit
 class TodayController: UICollectionViewController {
 
     private let todayCellId = "todayCellId"
-    
+    private var startFrame: CGRect?
+    private var fullViewController: TodayFullScreenView!
+    private var topConstraint: NSLayoutConstraint?
+    private var leftConstraint: NSLayoutConstraint?
+    private var widthConstraint: NSLayoutConstraint?
+    private var heightConstraint: NSLayoutConstraint?
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
@@ -29,7 +35,53 @@ class TodayController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("select: \(indexPath.item)")
+        
+        self.fullViewController = TodayFullScreenView()
+        let fullScreenView = fullViewController.view!
+        view.addSubview(fullScreenView)
+        addChild(fullViewController)
+        fullScreenView.translatesAutoresizingMaskIntoConstraints = false
+        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
+        guard let startFrame = cell.superview?.convert(cell.frame, to: nil) else { return }
+        
+        topConstraint = fullScreenView.topAnchor.constraint(equalTo: view.topAnchor, constant: startFrame.origin.y)
+        leftConstraint = fullScreenView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: startFrame.origin.x)
+        widthConstraint = fullScreenView.widthAnchor.constraint(equalToConstant: startFrame.width)
+        heightConstraint = fullScreenView.heightAnchor.constraint(equalToConstant: startFrame.height)
+        NSLayoutConstraint.activate([
+        topConstraint!, leftConstraint!, widthConstraint!, heightConstraint!
+        ])
+        self.view.layoutIfNeeded()
+        
+        self.startFrame = startFrame
+        fullScreenView.layer.cornerRadius = 16
+//        fullScreenView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(removeRedView)))
+        UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: .curveEaseOut, animations: {
+            self.topConstraint?.constant = 0
+            self.leftConstraint?.constant = 0
+            self.widthConstraint?.constant = self.view.frame.width
+            self.heightConstraint?.constant = self.view.frame.height
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+        
+    }
+    
+    @objc func removeRedView(_ sender: UIButton){
+        UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: .curveEaseOut, animations: {
+            sender.isHidden = true
+            self.fullViewController.tableView.scrollRectToVisible(.zero, animated: true)
+            guard let startFrame = self.startFrame else { return }
+            self.topConstraint?.constant = startFrame.origin.y
+            self.leftConstraint?.constant = startFrame.origin.x
+            self.widthConstraint?.constant = startFrame.width
+            self.heightConstraint?.constant = startFrame.height
+            
+            self.view.layoutIfNeeded()
+            
+        }) { _ in
+            self.fullViewController.view?.removeFromSuperview()
+            self.fullViewController.removeFromParent()
+        }
     }
 
     init(){
