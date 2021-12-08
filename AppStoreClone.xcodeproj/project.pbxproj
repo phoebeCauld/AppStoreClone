@@ -20,6 +20,7 @@
 		2D163D732757F7D4002AAF6F /* HorizontalSnappingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D163D722757F7D4002AAF6F /* HorizontalSnappingView.swift */; };
 		2D163D7527580091002AAF6F /* DetailAppsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D163D7427580091002AAF6F /* DetailAppsController.swift */; };
 		2D163D7727580B23002AAF6F /* DetailViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D163D7627580B23002AAF6F /* DetailViewCell.swift */; };
+		2D245BFA2761316700781E6C /* TodayItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D245BF92761316700781E6C /* TodayItem.swift */; };
 		2D263F192755343F0039AC5F /* AppsCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D263F182755343F0039AC5F /* AppsCollectionViewController.swift */; };
 		2D263F1D275535400039AC5F /* AppsCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D263F1C275535400039AC5F /* AppsCollectionViewCell.swift */; };
 		2D263F1F2755364E0039AC5F /* HorizontalCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2D263F1E2755364E0039AC5F /* HorizontalCollectionViewController.swift */; };
@@ -66,6 +67,7 @@
 		2D163D722757F7D4002AAF6F /* HorizontalSnappingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalSnappingView.swift; sourceTree = "<group>"; };
 		2D163D7427580091002AAF6F /* DetailAppsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailAppsController.swift; sourceTree = "<group>"; };
 		2D163D7627580B23002AAF6F /* DetailViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewCell.swift; sourceTree = "<group>"; };
+		2D245BF92761316700781E6C /* TodayItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodayItem.swift; sourceTree = "<group>"; };
 		2D263F182755343F0039AC5F /* AppsCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsCollectionViewController.swift; sourceTree = "<group>"; };
 		2D263F1C275535400039AC5F /* AppsCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppsCollectionViewCell.swift; sourceTree = "<group>"; };
 		2D263F1E2755364E0039AC5F /* HorizontalCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HorizontalCollectionViewController.swift; sourceTree = "<group>"; };
@@ -152,6 +154,14 @@
 			path = AppStoreClone;
 			sourceTree = "<group>";
 		};
+		2D245BF82761314C00781E6C /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				2D245BF92761316700781E6C /* TodayItem.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		2D263F1A2755351D0039AC5F /* AppsVC */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,6 +224,7 @@
 		2D4F8B54275E926A003B100F /* TodayVC */ = {
 			isa = PBXGroup;
 			children = (
+				2D245BF82761314C00781E6C /* Model */,
 				2D4F8B55275E9294003B100F /* TodayController.swift */,
 				2DBCD1EA275FD82B005B7C02 /* TodayFullScreenView.swift */,
 				2D4F8B57275E932E003B100F /* Cells */,
@@ -480,6 +491,7 @@
 				2DBCD1EB275FD82B005B7C02 /* TodayFullScreenView.swift in Sources */,
 				2D163D712757D747002AAF6F /* AppsView.swift in Sources */,
 				2D263F192755343F0039AC5F /* AppsCollectionViewController.swift in Sources */,
+				2D245BFA2761316700781E6C /* TodayItem.swift in Sources */,
 				2D263F1D275535400039AC5F /* AppsCollectionViewCell.swift in Sources */,
 				2DBCD1ED275FE801005B7C02 /* TopFullViewCell.swift in Sources */,
 				2DF6F75027540D5800E28BA2 /* NetworkManager.swift in Sources */,
