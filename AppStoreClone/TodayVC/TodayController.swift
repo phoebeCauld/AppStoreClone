@@ -9,6 +9,12 @@ import UIKit
 
 class TodayController: UICollectionViewController {
 
+    
+    var todayItems = [
+        TodayItem(category: "LIFE HACK", title: "Utilazing your Time", image: UIImage(named: "garden")!, description: "All the tools and apps you need to intelligently organize your life in the right way.", backgroungColor: .white),
+        TodayItem(category: "HOLIDAY", title: "Travel on a Badget", image: UIImage(named: "holiday")!, description: "Find out all you need to know on how to travel without packing everything!", backgroungColor: .init(named: "yellow")!)
+    ]
+    
     private let todayCellId = "todayCellId"
     private var startFrame: CGRect?
     private var fullViewController: TodayFullScreenView!
@@ -25,18 +31,23 @@ class TodayController: UICollectionViewController {
     }
 
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
+        return todayItems.count
     }
 
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: todayCellId, for: indexPath) as! TodayCell
-
+        cell.todayItem = todayItems[indexPath.row]
         return cell
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
+        collectionView.isUserInteractionEnabled = false
         self.fullViewController = TodayFullScreenView()
+        fullViewController.todayItem = todayItems[indexPath.row]
+
+        fullViewController.dismisFullVIew = {
+            self.removeFullView()
+        }
         let fullScreenView = fullViewController.view!
         view.addSubview(fullScreenView)
         addChild(fullViewController)
@@ -55,7 +66,6 @@ class TodayController: UICollectionViewController {
         
         self.startFrame = startFrame
         fullScreenView.layer.cornerRadius = 16
-//        fullScreenView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(removeRedView)))
         UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: .curveEaseOut, animations: {
             self.topConstraint?.constant = 0
             self.leftConstraint?.constant = 0
@@ -66,9 +76,8 @@ class TodayController: UICollectionViewController {
         
     }
     
-    @objc func removeRedView(_ sender: UIButton){
+    @objc func removeFullView(){
         UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: .curveEaseOut, animations: {
-            sender.isHidden = true
             self.fullViewController.tableView.scrollRectToVisible(.zero, animated: true)
             guard let startFrame = self.startFrame else { return }
             self.topConstraint?.constant = startFrame.origin.y
@@ -81,6 +90,7 @@ class TodayController: UICollectionViewController {
         }) { _ in
             self.fullViewController.view?.removeFromSuperview()
             self.fullViewController.removeFromParent()
+            self.collectionView.isUserInteractionEnabled = true
         }
     }
 

@@ -8,46 +8,40 @@
 import UIKit
 
 class TopFullViewCell: UITableViewCell {
-
     
+    let todayCell = TodayCell()
     
-    let cellImage: UIImageView = {
-        let iv = UIImageView()
-        iv.image = UIImage(named: "garden")
-        iv.contentMode = .scaleAspectFill
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        return iv
-    }()
     let closeButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
         button.tintColor = .systemBlue
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(TodayController(), action: #selector(TodayController.removeRedView), for: .touchUpInside)
         return button
     }()
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = .white
-        layer.cornerRadius = 16
         setConstraints()
     }
     
     func setConstraints(){
-        contentView.addSubview(cellImage)
+        todayCell.translatesAutoresizingMaskIntoConstraints = false
+        contentView.addSubview(todayCell)
         contentView.addSubview(closeButton)
         NSLayoutConstraint.activate([
-            cellImage.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
-            cellImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-            cellImage.widthAnchor.constraint(equalToConstant: 250),
-            cellImage.heightAnchor.constraint(equalToConstant: 250),
-            closeButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
+            todayCell.topAnchor.constraint(equalTo: contentView.topAnchor),
+            todayCell.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            todayCell.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            todayCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
+
+            closeButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
             closeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -5),
             closeButton.widthAnchor.constraint(equalToConstant: 50),
             closeButton.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
+    
+
     
     required init?(coder: NSCoder) {
         fatalError()
