@@ -57,7 +57,7 @@ class MultiplyCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setConstraints()
+        setConstraints() 
     }
     
     private func setConstraints(){

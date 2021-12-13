@@ -11,14 +11,7 @@ class TodayController: UICollectionViewController {
 
     private var todayListView = TodayListView()
     var todayItems = [TodayItem]()
-    
-//    var todayItems = [
-//        TodayItem(category: "LIFE HACK", title: "Utilazing your Time", image: UIImage(named: "garden")!, description: "All the tools and apps you need to intelligently organize your life in the right way.", backgroungColor: .white, cellStyle: .single),
-//        TodayItem(category: "Multiply Cell", title: "Test-Drive these CarPlay Apps", image: UIImage(named: "garden")!, description: "", backgroungColor: .white, cellStyle: .multiply),
-//        TodayItem(category: "HOLIDAY", title: "Travel on a Badget", image: UIImage(named: "holiday")!, description: "Find out all you need to know on how to travel without packing everything!", backgroungColor: .init(named: "yellow")!, cellStyle: .single),
-//        TodayItem(category: "Multiply Cell", title: "Test-Drive these CarPlay Apps", image: UIImage(named: "garden")!, description: "", backgroungColor: .white, cellStyle: .multiply)
-//    ]
-    
+
     private let todayCellId = "todayCellId"
     private var startFrame: CGRect?
     private var fullViewController: TodayFullScreenView!
@@ -94,6 +87,15 @@ class TodayController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        if todayItems[indexPath.row].cellStyle == .multiply {
+            let appsCellView = MultiplyController(mode: .fullscreen)
+            appsCellView.results = todayItems[indexPath.row].appsResult
+            appsCellView.modalPresentationStyle = .fullScreen
+            self.present(appsCellView, animated: true)
+            return
+        }
+        
         collectionView.isUserInteractionEnabled = false
         self.fullViewController = TodayFullScreenView()
         fullViewController.todayItem = todayItems[indexPath.row]
@@ -101,6 +103,9 @@ class TodayController: UICollectionViewController {
         fullViewController.dismisFullVIew = {
             self.removeFullView()
         }
+        
+        // set fullscreen animation
+        
         let fullScreenView = fullViewController.view!
         view.addSubview(fullScreenView)
         addChild(fullViewController)

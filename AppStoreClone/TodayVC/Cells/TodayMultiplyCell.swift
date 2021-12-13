@@ -33,7 +33,7 @@ class TodayMultiplyCell: BaseTodayCell {
         return label
     }()
     
-    let multiplyCellVC = MultiplyController()
+    let multiplyCellVC = MultiplyController(mode: .small)
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -42,7 +42,7 @@ class TodayMultiplyCell: BaseTodayCell {
     }
     
     private func setConstraints(){
-        multiplyCellVC.view.backgroundColor = .red
+//        multiplyCellVC.view.backgroundColor = .red
         let stack = VerticalStackView(arrangedSubviews: [
             categoryLabel, titleLabel, multiplyCellVC.view
         ], spacing: 10)

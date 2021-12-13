@@ -7,19 +7,58 @@
 
 import UIKit
 
+enum Mode {
+    case fullscreen, small
+}
+
 class MultiplyController: UICollectionViewController {
     
-    private let cellId = "multiplyCell"
     var results = [FeedResults]()
+    private var mode: Mode?
+    private let cellId = "multiplyCell"
+    override var prefersStatusBarHidden: Bool { return true }
+    private let closeButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
+        button.tintColor = .systemBlue
+        button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        switch mode {
+        case .fullscreen:
+            setCloseButton()
+        case .small: 
+            self.collectionView.isScrollEnabled = false
+        case .none:
+            break
+        }
+        
         collectionView.register(MultiplyCell.self, forCellWithReuseIdentifier: cellId)
-        collectionView.isScrollEnabled = false
+    }
+    
+    @objc func closeButtonTapped(){
+        dismiss(animated: true)
     }
     
     
+    private func setCloseButton(){
+        self.view.addSubview(closeButton)
+        NSLayoutConstraint.activate([
+            closeButton.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 20),
+            closeButton.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -20),
+            closeButton.widthAnchor.constraint(equalToConstant: 50),
+            closeButton.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if mode == .fullscreen {
+            return results.count
+        }
         return min(4, results.count)
     }
     
@@ -29,7 +68,8 @@ class MultiplyController: UICollectionViewController {
         return cell
     }
     
-    init(){
+    init(mode: Mode){
+        self.mode = mode
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
     
@@ -40,9 +80,20 @@ class MultiplyController: UICollectionViewController {
 
 extension MultiplyController: UICollectionViewDelegateFlowLayout{
     
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        if mode == .fullscreen {
+            return .init(top: 20, left: 20, bottom: 20, right: 20)
+        }
+        return .zero
+    }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let height = (view.frame.height - 16*3)/4
-        return .init(width: view.frame.width, height: height)
+        let height: CGFloat = 68
+        if mode == .small {
+            return .init(width: view.frame.width, height: height)
+        }
+//        let height = (view.frame.height - 16*3)/4
+        return .init(width: view.frame.width - 40, height: height)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
