@@ -82,17 +82,41 @@ class TodayController: UICollectionViewController {
         let cellId = todayItems[indexPath.item].cellStyle.rawValue
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId , for: indexPath) as! BaseTodayCell
         cell.todayItem = todayItems[indexPath.item]
+        (cell as? TodayMultiplyCell)?.multiplyCellVC.collectionView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(appInCellTapped)))
 
         return cell
+    }
+    
+    // доработать!
+    @objc func appInCellTapped(gesture: UIGestureRecognizer){
+        
+        let collectionView = gesture.view
+        var superview = collectionView?.superview
+        
+        while superview != nil {
+            if let cell = superview as? TodayMultiplyCell {
+                guard let indexPath = self.collectionView.indexPath(for: cell) else { return }
+                let apps = self.todayItems[indexPath.item].appsResult
+                let appsVC = MultiplyController(mode: .fullscreen)
+                appsVC.apps = apps
+                let navVC = BackEnabledNavigationController(rootViewController: appsVC)
+                navVC.modalPresentationStyle = .fullScreen
+                self.present(navVC, animated: true)
+                return
+            }
+            
+            superview = superview?.superview
+        }
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         if todayItems[indexPath.row].cellStyle == .multiply {
             let appsCellView = MultiplyController(mode: .fullscreen)
-            appsCellView.results = todayItems[indexPath.row].appsResult
-            appsCellView.modalPresentationStyle = .fullScreen
-            self.present(appsCellView, animated: true)
+            appsCellView.apps = todayItems[indexPath.row].appsResult
+            let navController = BackEnabledNavigationController(rootViewController: appsCellView)
+            navController.modalPresentationStyle = .fullScreen
+            self.present(navController, animated: true)
             return
         }
         
