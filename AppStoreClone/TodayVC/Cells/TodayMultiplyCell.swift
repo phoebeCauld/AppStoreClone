@@ -14,7 +14,7 @@ class TodayMultiplyCell: BaseTodayCell {
             categoryLabel.text = todayItem.category
             titleLabel.text = todayItem.title
             backgroundColor = todayItem.backgroungColor
-            multiplyCellVC.results = todayItem.appsResult
+            multiplyCellVC.apps = todayItem.appsResult
             multiplyCellVC.collectionView.reloadData()
         }
     }
@@ -42,7 +42,6 @@ class TodayMultiplyCell: BaseTodayCell {
     }
     
     private func setConstraints(){
-//        multiplyCellVC.view.backgroundColor = .red
         let stack = VerticalStackView(arrangedSubviews: [
             categoryLabel, titleLabel, multiplyCellVC.view
         ], spacing: 10)
