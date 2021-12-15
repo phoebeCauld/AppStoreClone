@@ -96,46 +96,33 @@ class TodayController: UICollectionViewController {
         while superview != nil {
             if let cell = superview as? TodayMultiplyCell {
                 guard let indexPath = self.collectionView.indexPath(for: cell) else { return }
-                let apps = self.todayItems[indexPath.item].appsResult
-                let appsVC = MultiplyController(mode: .fullscreen)
-                appsVC.apps = apps
-                let navVC = BackEnabledNavigationController(rootViewController: appsVC)
-                navVC.modalPresentationStyle = .fullScreen
-                self.present(navVC, animated: true)
+                showTodayListFullScreen(indexPath)
                 return
             }
-            
             superview = superview?.superview
         }
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-        if todayItems[indexPath.row].cellStyle == .multiply {
-            let appsCellView = MultiplyController(mode: .fullscreen)
-            appsCellView.apps = todayItems[indexPath.row].appsResult
-            let navController = BackEnabledNavigationController(rootViewController: appsCellView)
-            navController.modalPresentationStyle = .fullScreen
-            self.present(navController, animated: true)
-            return
-        }
+    fileprivate func showTodayListFullScreen(_ indexPath: IndexPath) {
+        let appsCellView = MultiplyController(mode: .fullscreen)
+        appsCellView.apps = todayItems[indexPath.row].appsResult
+        let navController = BackEnabledNavigationController(rootViewController: appsCellView)
+        navController.modalPresentationStyle = .fullScreen
+        self.present(navController, animated: true)
+    }
+    
+    fileprivate func setStartPositionForCell(_ indexPath: IndexPath){
+        let fullScreenView = fullViewController.view!
+        self.view.addSubview(fullScreenView)
+        
+        self.addChild(fullViewController)
         
         collectionView.isUserInteractionEnabled = false
-        self.fullViewController = TodayFullScreenView()
-        fullViewController.todayItem = todayItems[indexPath.row]
 
-        fullViewController.dismisFullVIew = {
-            self.removeFullView()
-        }
-        
-        // set fullscreen animation
-        
-        let fullScreenView = fullViewController.view!
-        view.addSubview(fullScreenView)
-        addChild(fullViewController)
-        fullScreenView.translatesAutoresizingMaskIntoConstraints = false
         guard let cell = collectionView.cellForItem(at: indexPath) else { return }
         guard let startFrame = cell.superview?.convert(cell.frame, to: nil) else { return }
+        
+        fullScreenView.translatesAutoresizingMaskIntoConstraints = false
         
         topConstraint = fullScreenView.topAnchor.constraint(equalTo: view.topAnchor, constant: startFrame.origin.y)
         leftConstraint = fullScreenView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: startFrame.origin.x)
@@ -147,7 +134,9 @@ class TodayController: UICollectionViewController {
         self.view.layoutIfNeeded()
         
         self.startFrame = startFrame
-        fullScreenView.layer.cornerRadius = 16
+    }
+    
+    fileprivate func beginAnimationForCells(_ indexPath: IndexPath){
         UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: .curveEaseOut, animations: {
             self.topConstraint?.constant = 0
             self.leftConstraint?.constant = 0
@@ -155,12 +144,28 @@ class TodayController: UICollectionViewController {
             self.heightConstraint?.constant = self.view.frame.height
             self.view.layoutIfNeeded()
         }, completion: nil)
-        
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        if todayItems[indexPath.row].cellStyle == .multiply {
+            showTodayListFullScreen(indexPath)
+            return
+        } else {
+            self.fullViewController = TodayFullScreenView()
+            fullViewController.todayItem = todayItems[indexPath.row]
+            fullViewController.view.layer.cornerRadius = 16
+            fullViewController.dismisFullVIew = {
+                self.removeFullView()
+            }
+            setStartPositionForCell(indexPath)
+            beginAnimationForCells(indexPath)
+        }
     }
     
     @objc func removeFullView(){
         UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: .curveEaseOut, animations: {
-            self.fullViewController.tableView.scrollIndicatorInsets = .zero
+            self.fullViewController.tableView.contentInsetAdjustmentBehavior = .never
             guard let startFrame = self.startFrame else { return }
             self.topConstraint?.constant = startFrame.origin.y
             self.leftConstraint?.constant = startFrame.origin.x
