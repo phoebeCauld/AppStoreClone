@@ -11,6 +11,7 @@ class TodayFullScreenView: UITableViewController {
     
     var dismisFullVIew: (() -> ())?
     var todayItem: TodayItem?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configTabView()
