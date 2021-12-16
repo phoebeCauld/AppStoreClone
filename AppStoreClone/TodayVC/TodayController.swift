@@ -19,16 +19,25 @@ class TodayController: UICollectionViewController {
     private var leftConstraint: NSLayoutConstraint?
     private var widthConstraint: NSLayoutConstraint?
     private var heightConstraint: NSLayoutConstraint?
-
+    private var fullViewOffset: CGFloat = 0
+    private var blurView: UIVisualEffectView = .init(effect: UIBlurEffect.init(style: .regular))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
+        self.view.addSubview(blurView)
+        blurView.alpha = 0
         todayListView.setConstraints(view)
         todayListView.activityIndicator.startAnimating()
         fetchData()
         collectionView.backgroundColor = UIColor(white: 0.95, alpha: 1)
         collectionView.register(TodayCell.self, forCellWithReuseIdentifier: TodayItem.CellStyle.single.rawValue)
         collectionView.register(TodayMultiplyCell.self, forCellWithReuseIdentifier: TodayItem.CellStyle.multiply.rawValue)
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        blurView.frame = self.view.frame
     }
     
     private func fetchData(){
@@ -74,6 +83,8 @@ class TodayController: UICollectionViewController {
         }
     }
 
+// MARK: - CollectionView methods
+    
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return todayItems.count
     }
@@ -82,13 +93,26 @@ class TodayController: UICollectionViewController {
         let cellId = todayItems[indexPath.item].cellStyle.rawValue
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId , for: indexPath) as! BaseTodayCell
         cell.todayItem = todayItems[indexPath.item]
-        (cell as? TodayMultiplyCell)?.multiplyCellVC.collectionView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(appInCellTapped)))
+        (cell as? TodayMultiplyCell)?.multiplyCellVC.collectionView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(multiplyCellTaped)))
 
         return cell
     }
     
-    // доработать!
-    @objc func appInCellTapped(gesture: UIGestureRecognizer){
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+
+        if todayItems[indexPath.row].cellStyle == .multiply {
+            showTodayListFullScreen(indexPath)
+            return
+        } else {
+            showSingleCellFullscreen(indexPath)
+            setStartPositionForCell(indexPath)
+            beginAnimationForCells(indexPath)
+        }
+    }
+    
+//MARK: - DidSelect methods
+    
+    @objc func multiplyCellTaped(gesture: UIGestureRecognizer){
         
         let collectionView = gesture.view
         var superview = collectionView?.superview
@@ -109,6 +133,18 @@ class TodayController: UICollectionViewController {
         let navController = BackEnabledNavigationController(rootViewController: appsCellView)
         navController.modalPresentationStyle = .fullScreen
         self.present(navController, animated: true)
+    }
+    
+    fileprivate func showSingleCellFullscreen(_ indexPath: IndexPath) {
+        self.fullViewController = TodayFullScreenView()
+        fullViewController.todayItem = todayItems[indexPath.row]
+        fullViewController.view.layer.cornerRadius = 16
+        fullViewController.dismisFullVIew = {
+            self.dismissFullView()
+        }
+        let gesture = UIPanGestureRecognizer(target: self, action: #selector(handleDragDismiss))
+        fullViewController.view.addGestureRecognizer(gesture)
+        gesture.delegate = self
     }
     
     fileprivate func setStartPositionForCell(_ indexPath: IndexPath){
@@ -146,26 +182,34 @@ class TodayController: UICollectionViewController {
         }, completion: nil)
     }
     
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
-        if todayItems[indexPath.row].cellStyle == .multiply {
-            showTodayListFullScreen(indexPath)
+//MARK: - Dismiss Methods
+    
+    @objc fileprivate func handleDragDismiss(gesture: UIPanGestureRecognizer){
+        if gesture.state == .began {
+            self.fullViewOffset = fullViewController.tableView.contentOffset.y
+        }
+        if fullViewController.tableView.contentOffset.y > 0 {
             return
-        } else {
-            self.fullViewController = TodayFullScreenView()
-            fullViewController.todayItem = todayItems[indexPath.row]
-            fullViewController.view.layer.cornerRadius = 16
-            fullViewController.dismisFullVIew = {
-                self.removeFullView()
-            }
-            setStartPositionForCell(indexPath)
-            beginAnimationForCells(indexPath)
+        }
+        let transitionY = gesture.translation(in: fullViewController.view).y
+        if gesture.state == .changed && transitionY > 0 {
+            let trueScale = transitionY - self.fullViewOffset
+                var scale = 1 - trueScale/1000
+            scale = min(1,scale)
+            scale = max(0.6, scale)
+                let transform: CGAffineTransform = .init(scaleX: scale, y: scale)
+                self.fullViewController.view.transform = transform
+                self.blurView.alpha = 1
+        } else if gesture.state == .ended && transitionY > 0 {
+            dismissFullView()
         }
     }
     
-    @objc func removeFullView(){
+    @objc func dismissFullView(){
         UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: .curveEaseOut, animations: {
             self.fullViewController.tableView.contentInsetAdjustmentBehavior = .never
+            self.fullViewController.view.transform = .identity
+            self.blurView.alpha = 0
             guard let startFrame = self.startFrame else { return }
             self.topConstraint?.constant = startFrame.origin.y
             self.leftConstraint?.constant = startFrame.origin.x
@@ -177,6 +221,7 @@ class TodayController: UICollectionViewController {
         }) { _ in
             self.fullViewController.view?.removeFromSuperview()
             self.fullViewController.removeFromParent()
+
             self.collectionView.isUserInteractionEnabled = true
         }
     }
@@ -201,6 +246,12 @@ extension TodayController: UICollectionViewDelegateFlowLayout{
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return .init(top: Spacing.cellSpace/2, left: 0, bottom: Spacing.cellSpace/2, right: 0)
+    }
+}
+
+extension TodayController: UIGestureRecognizerDelegate{
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
 }
 
