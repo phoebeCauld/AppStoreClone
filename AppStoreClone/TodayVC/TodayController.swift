@@ -21,7 +21,7 @@ class TodayController: UICollectionViewController {
     private var heightConstraint: NSLayoutConstraint?
     private var fullViewOffset: CGFloat = 0
     private var blurView: UIVisualEffectView = .init(effect: UIBlurEffect.init(style: .regular))
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.isNavigationBarHidden = true
@@ -154,7 +154,7 @@ class TodayController: UICollectionViewController {
         self.addChild(fullViewController)
         
         collectionView.isUserInteractionEnabled = false
-
+        fullViewController.navigationController?.tabBarController?.tabBar.isHidden = true
         guard let cell = collectionView.cellForItem(at: indexPath) else { return }
         guard let startFrame = cell.superview?.convert(cell.frame, to: nil) else { return }
         
@@ -191,6 +191,7 @@ class TodayController: UICollectionViewController {
         if fullViewController.tableView.contentOffset.y > 0 {
             return
         }
+        
         let transitionY = gesture.translation(in: fullViewController.view).y
         if gesture.state == .changed && transitionY > 0 {
             let trueScale = transitionY - self.fullViewOffset
@@ -209,12 +210,15 @@ class TodayController: UICollectionViewController {
         UIView.animate(withDuration: 0.7, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.7, options: .curveEaseOut, animations: {
             self.fullViewController.tableView.contentInsetAdjustmentBehavior = .never
             self.fullViewController.view.transform = .identity
+            self.fullViewController.navigationController?.tabBarController?.tabBar.isHidden = false
+            
             self.blurView.alpha = 0
             guard let startFrame = self.startFrame else { return }
             self.topConstraint?.constant = startFrame.origin.y
             self.leftConstraint?.constant = startFrame.origin.x
             self.widthConstraint?.constant = startFrame.width
             self.heightConstraint?.constant = startFrame.height
+            self.fullViewController.closeButton.alpha = 0
             
             self.view.layoutIfNeeded()
             

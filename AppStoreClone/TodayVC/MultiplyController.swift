@@ -17,6 +17,7 @@ class MultiplyController: UICollectionViewController {
     private var mode: Mode?
     private let cellId = "multiplyCell"
     override var prefersStatusBarHidden: Bool { return true }
+    
     private let closeButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "xmark.circle.fill"), for: .normal)
