@@ -30,6 +30,7 @@ class MultiplyCell: UICollectionViewCell {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name Label"
+        label.textColor = .black
         label.font = .systemFont(ofSize: 20)
         return label
     }()
@@ -57,6 +58,7 @@ class MultiplyCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        contentView.backgroundColor = .white
         setConstraints() 
     }
     
