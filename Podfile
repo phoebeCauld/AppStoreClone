@@ -7,5 +7,5 @@ target 'AppStoreClone' do
 
   # Pods for AppStoreClone
    pod 'SDWebImage'
-
+   pod 'SwiftLint'
 end

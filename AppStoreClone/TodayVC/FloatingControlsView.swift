@@ -9,14 +9,11 @@ import UIKit
 
 class FloatingControlsView: UIView {
 
-    init(image: UIImage?, name: String?, info: String?){
-        self.appImage.image = image
-        self.appName.text = name
-        self.appInfo.text = info
-        super.init(frame: .zero)
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupView()
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -53,8 +50,7 @@ class FloatingControlsView: UIView {
 
     let blurEffect = UIVisualEffectView(effect: UIBlurEffect(style: .regular))
 
-
-    func setupView(){
+    func setupView() {
         self.layer.cornerRadius = 16
         self.clipsToBounds = true
        let stack = UIStackView(arrangedSubviews: [appImage,
@@ -66,13 +62,12 @@ class FloatingControlsView: UIView {
         blurEffect.translatesAutoresizingMaskIntoConstraints = false
         self.addSubview(blurEffect)
         self.addSubview(stack)
-        
+
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(equalTo: self.topAnchor),
             stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 10),
             stack.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -10),
             stack.bottomAnchor.constraint(equalTo: self.bottomAnchor),
-
 
             appImage.heightAnchor.constraint(equalToConstant: 68),
             appImage.widthAnchor.constraint(equalTo: appImage.heightAnchor),

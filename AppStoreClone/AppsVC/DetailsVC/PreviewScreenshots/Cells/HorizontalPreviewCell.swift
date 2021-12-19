@@ -8,26 +8,26 @@
 import UIKit
 
 class HorizontalPreviewCell: UICollectionViewCell {
-    
+
     let previewImage: UIImageView = {
-        let iv = UIImageView()
-        iv.layer.cornerRadius = 12
-        iv.layer.borderWidth = 0.5
-        iv.layer.borderColor = UIColor.lightGray.cgColor
-        iv.clipsToBounds = true
-        iv.contentMode = .scaleAspectFill
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        return iv
+        let previewImage = UIImageView()
+        previewImage.layer.cornerRadius = 12
+        previewImage.layer.borderWidth = 0.5
+        previewImage.layer.borderColor = UIColor.lightGray.cgColor
+        previewImage.clipsToBounds = true
+        previewImage.contentMode = .scaleAspectFill
+        previewImage.translatesAutoresizingMaskIntoConstraints = false
+        return previewImage
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setContraints()
     }
-    
-    func setContraints(){
+
+    func setContraints() {
         contentView.addSubview(previewImage)
-        
+
         NSLayoutConstraint.activate([
             previewImage.topAnchor.constraint(equalTo: contentView.topAnchor),
             previewImage.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -35,7 +35,7 @@ class HorizontalPreviewCell: UICollectionViewCell {
             previewImage.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError()
     }

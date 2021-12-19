@@ -8,7 +8,7 @@
 import UIKit
 
 class SearchCollectionViewCell: UICollectionViewCell {
-    
+
     let searchView = SearchCellView()
 
     override init(frame: CGRect) {
@@ -19,5 +19,4 @@ class SearchCollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
 }

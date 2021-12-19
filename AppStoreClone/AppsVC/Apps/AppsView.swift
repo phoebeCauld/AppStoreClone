@@ -17,8 +17,8 @@ class AppsView: UIView {
         activityIV.translatesAutoresizingMaskIntoConstraints = false
         return activityIV
     }()
-    
-    func setConstraints(_ view: UIView){
+
+    func setConstraints(_ view: UIView) {
         view.addSubview(activityIndicator)
         NSLayoutConstraint.activate([
             activityIndicator.topAnchor.constraint(equalTo: view.topAnchor),

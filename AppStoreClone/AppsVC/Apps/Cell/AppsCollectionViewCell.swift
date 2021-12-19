@@ -8,7 +8,7 @@
 import UIKit
 
 class AppsCollectionViewCell: UICollectionViewCell {
-    
+
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Apps Section"
@@ -16,9 +16,9 @@ class AppsCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
-    
+
     let horizontalController = HorizontalCollectionViewController()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.addSubview(titleLabel)
@@ -26,26 +26,26 @@ class AppsCollectionViewCell: UICollectionViewCell {
         addSubview(horizontalController.view)
         setConstraints()
     }
-    
-    func setConstraints(){
+
+    func setConstraints() {
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
                                                 constant: ConstraintConstants.left),
             titleLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
+
             horizontalController.view.topAnchor.constraint(equalTo: titleLabel.bottomAnchor),
             horizontalController.view.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
             horizontalController.view.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             horizontalController.view.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
-struct ConstraintConstants{
+struct ConstraintConstants {
     static let left: CGFloat = 16
 }

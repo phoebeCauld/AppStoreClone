@@ -8,16 +8,16 @@
 import UIKit
 
 class HeaderView: UICollectionReusableView {
-    
+
      let horizontalController = HeaderCollectionViewController()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(horizontalController.view)
         setConstraints()
     }
-    
-    func setConstraints(){
+
+    func setConstraints() {
         horizontalController.view.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             horizontalController.view.topAnchor.constraint(equalTo: self.topAnchor),
@@ -26,7 +26,7 @@ class HeaderView: UICollectionReusableView {
             horizontalController.view.bottomAnchor.constraint(equalTo: self.bottomAnchor)
         ])
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

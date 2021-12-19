@@ -7,8 +7,8 @@
 
 import UIKit
 
-class HorizontalSnappingView: UICollectionViewController{
-    
+class HorizontalSnappingView: UICollectionViewController {
+
      init() {
         let layout = SnapLayout()
         layout.scrollDirection = .horizontal
@@ -16,17 +16,17 @@ class HorizontalSnappingView: UICollectionViewController{
          collectionView.contentInset = .init(top: 0, left: 16, bottom: 0, right: 16)
          collectionView.decelerationRate = .fast
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
 
-class SnapLayout: UICollectionViewFlowLayout{
-    
-    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint, withScrollingVelocity velocity: CGPoint) -> CGPoint {
+class SnapLayout: UICollectionViewFlowLayout {
+    override func targetContentOffset(forProposedContentOffset proposedContentOffset: CGPoint,
+                                      withScrollingVelocity velocity: CGPoint) -> CGPoint {
          guard let collectionView = collectionView else { return super.targetContentOffset(forProposedContentOffset: proposedContentOffset, withScrollingVelocity: velocity) }
-        
+
         let nextX: CGFloat
         if proposedContentOffset.x <= 0 ||
             collectionView.contentOffset == proposedContentOffset {

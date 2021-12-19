@@ -16,7 +16,7 @@ class TabBarController: UITabBarController {
             createNavController(viewController: SearchCollectionViewController(), title: "Search", image: "search")
         ]
     }
-    
+
     fileprivate func createNavController(viewController: UIViewController, title: String, image: String) -> UIViewController {
         let navController = UINavigationController(rootViewController: viewController)
         navController.navigationBar.prefersLargeTitles = true

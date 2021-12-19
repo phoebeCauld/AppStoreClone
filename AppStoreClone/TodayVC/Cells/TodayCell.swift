@@ -24,29 +24,29 @@ class TodayCell: BaseTodayCell {
         label.font = .boldSystemFont(ofSize: 20)
         return label
     }()
-    
+
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Utilazing your Time"
         label.font = .boldSystemFont(ofSize: 28)
         return label
     }()
-    
+
     let cellImage: UIImageView = {
-        let iv = UIImageView()
-        iv.image = UIImage(named: "garden")
-        iv.contentMode = .scaleAspectFill
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        return iv
+        let cellImage = UIImageView()
+        cellImage.image = UIImage(named: "garden")
+        cellImage.contentMode = .scaleAspectFill
+        cellImage.translatesAutoresizingMaskIntoConstraints = false
+        return cellImage
     }()
-    
+
     let descriptionLabel: UILabel = {
         let label = UILabel()
         label.text = "All the tools and apps you need to intelligently organize your life in the right way."
         label.numberOfLines = 3
         return label
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
@@ -54,11 +54,11 @@ class TodayCell: BaseTodayCell {
         clipsToBounds = true
         setConstraints()
     }
-    
-    func setConstraints(){
+
+    func setConstraints() {
         let containerForImage = UIView()
         containerForImage.addSubview(cellImage)
-        
+
         let stack = VerticalStackView(arrangedSubviews: [
         categoryLabel, titleLabel, containerForImage, descriptionLabel
         ])
@@ -77,9 +77,7 @@ class TodayCell: BaseTodayCell {
             cellImage.heightAnchor.constraint(equalToConstant: 250)
         ])
     }
-    
 
-    
     required init?(coder: NSCoder) {
         fatalError()
     }
