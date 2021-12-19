@@ -8,7 +8,7 @@
 import UIKit
 
 class SearchCellView: UIView {
-    
+
     var searchResult: Results! {
         didSet {
             nameLabel.text = searchResult.trackName
@@ -37,22 +37,22 @@ class SearchCellView: UIView {
         label.text = "Photos&Videos"
         return label
     }()
-    
+
     let raitingLabel: UILabel = {
        let label = UILabel()
         label.text = "9.6m"
         return label
     }()
-    
+
     let iconView: UIImageView = {
-        let iv = UIImageView()
-        iv.layer.cornerRadius = 12
-        iv.clipsToBounds = true
-        iv.widthAnchor.constraint(equalToConstant: 64).isActive = true
-        iv.heightAnchor.constraint(equalToConstant: 64).isActive = true
-        return iv
+        let icon = UIImageView()
+        icon.layer.cornerRadius = 12
+        icon.clipsToBounds = true
+        icon.widthAnchor.constraint(equalToConstant: 64).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 64).isActive = true
+        return icon
     }()
-    
+
     let getButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("GET", for: .normal)
@@ -63,11 +63,11 @@ class SearchCellView: UIView {
         button.widthAnchor.constraint(equalToConstant: 80).isActive = true
         return button
     }()
-    
+
     lazy var firstImageView = createInfoImageView()
     lazy var secondImageView = createInfoImageView()
     lazy var thirdImageView = createInfoImageView()
-        
+
     lazy var infoTopStackView: UIStackView = {
         let stack = UIStackView(arrangedSubviews: [iconView,
                                                    VerticalStackView(arrangedSubviews: [nameLabel, categoryLabel, raitingLabel]),
@@ -76,7 +76,7 @@ class SearchCellView: UIView {
         stack.alignment = .center
         return stack
     }()
-    
+
     lazy var infoImageStack: UIStackView = {
        let stackView = UIStackView(arrangedSubviews: [firstImageView,
                                                       secondImageView,
@@ -85,17 +85,16 @@ class SearchCellView: UIView {
         stackView.distribution = .fillEqually
         return stackView
     }()
-    
-    lazy var finalStackView = VerticalStackView(arrangedSubviews: [infoTopStackView,infoImageStack],
-                                                spacing: SearchCellConstants.spacing)
 
+    lazy var finalStackView = VerticalStackView(arrangedSubviews: [infoTopStackView,
+                                                                   infoImageStack],
+                                                spacing: SearchCellConstants.spacing)
 
     override func addSubview(_ view: UIView) {
         view.addSubview(finalStackView)
         setConstraints(view)
     }
-    
-    
+
     private func createInfoImageView() -> UIImageView {
         let screenShootView = UIImageView()
         screenShootView.layer.cornerRadius = 8
@@ -104,8 +103,8 @@ class SearchCellView: UIView {
         screenShootView.clipsToBounds = true
         return screenShootView
     }
-    
-    private func setConstraints(_ view: UIView){
+
+    private func setConstraints(_ view: UIView) {
         NSLayoutConstraint.activate([
             finalStackView.topAnchor.constraint(equalTo: view.topAnchor,
                                            constant: SearchCellConstants.top),
@@ -119,7 +118,7 @@ class SearchCellView: UIView {
     }
 }
 
-fileprivate struct SearchCellConstants{
+private struct SearchCellConstants {
     static let top: CGFloat = 16
     static let trailing: CGFloat = -16
     static let leading: CGFloat = 16

@@ -8,24 +8,24 @@
 import UIKit
 
 class AppsCell: UICollectionViewCell {
-    
+
     let iconImage: UIImageView = {
-        let iv = UIImageView()
-        iv.layer.cornerRadius = 12
-        iv.widthAnchor.constraint(equalToConstant: 64).isActive = true
-        iv.heightAnchor.constraint(equalToConstant: 64).isActive = true
-        iv.clipsToBounds = true
-        iv.contentMode = .scaleAspectFill
-        return iv
+        let icon = UIImageView()
+        icon.layer.cornerRadius = 12
+        icon.widthAnchor.constraint(equalToConstant: 64).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 64).isActive = true
+        icon.clipsToBounds = true
+        icon.contentMode = .scaleAspectFill
+        return icon
     }()
-    
+
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name Label"
         label.font = .systemFont(ofSize: 20)
         return label
     }()
-    
+
     let companyLabel: UILabel = {
         let label = UILabel()
         label.text = "Apple.inc"
@@ -33,7 +33,7 @@ class AppsCell: UICollectionViewCell {
         label.textColor = UIColor(white: 0.5, alpha: 1)
         return label
     }()
-    
+
     let getButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("GET", for: .normal)
@@ -44,15 +44,17 @@ class AppsCell: UICollectionViewCell {
         button.widthAnchor.constraint(equalToConstant: 80).isActive = true
         return button
     }()
-    
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setConstraints()        
+        setConstraints()
     }
-    
-    private func setConstraints(){
-        let stack = UIStackView(arrangedSubviews: [iconImage, VerticalStackView(arrangedSubviews: [nameLabel,companyLabel], spacing: 5),getButton])
+
+    private func setConstraints() {
+        let stack = UIStackView(arrangedSubviews: [iconImage,
+                                                   VerticalStackView(arrangedSubviews: [nameLabel, companyLabel],
+                                                                     spacing: 5),
+                                                   getButton])
         stack.spacing = 10
         stack.alignment = .center
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +67,7 @@ class AppsCell: UICollectionViewCell {
             stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

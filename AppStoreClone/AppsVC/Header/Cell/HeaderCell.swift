@@ -8,7 +8,7 @@
 import UIKit
 
 class HeaderCell: UICollectionViewCell {
-    
+
     let companyLabel: UILabel = {
         let label = UILabel()
         label.text = "Facebook"
@@ -16,7 +16,7 @@ class HeaderCell: UICollectionViewCell {
         label.textColor = .blue
         return label
     }()
-    
+
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Some text about new cool things in app"
@@ -24,21 +24,21 @@ class HeaderCell: UICollectionViewCell {
         label.numberOfLines = 2
         return label
     }()
-    
+
     let appImage: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 10
-        iv.clipsToBounds = true
-        return iv
+        let appImage = UIImageView()
+        appImage.contentMode = .scaleAspectFill
+        appImage.layer.cornerRadius = 10
+        appImage.clipsToBounds = true
+        return appImage
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConstraints()
     }
-    
-    private func setConstraints(){
+
+    private func setConstraints() {
         let stack = VerticalStackView(arrangedSubviews: [companyLabel, titleLabel, appImage], spacing: 5)
         contentView.addSubview(stack)
 
@@ -49,7 +49,7 @@ class HeaderCell: UICollectionViewCell {
             stack.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

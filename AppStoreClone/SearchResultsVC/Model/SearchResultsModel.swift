@@ -23,5 +23,3 @@ struct Results: Decodable {
     let description: String
     var releaseNotes: String?
 }
-
-

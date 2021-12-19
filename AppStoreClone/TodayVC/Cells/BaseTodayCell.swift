@@ -8,9 +8,9 @@
 import UIKit
 
 class BaseTodayCell: UICollectionViewCell {
-    
+
     var todayItem: TodayItem!
-    
+
     override var isHighlighted: Bool {
         didSet {
             var transform: CGAffineTransform = .identity
@@ -22,14 +22,14 @@ class BaseTodayCell: UICollectionViewCell {
             }
         }
     }
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         layer.shadowOpacity = 0.05
         layer.shadowRadius = 10
         layer.shadowOffset = .init(width: 0, height: 10)
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError()
     }

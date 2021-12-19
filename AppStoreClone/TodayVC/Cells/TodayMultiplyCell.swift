@@ -8,7 +8,7 @@
 import UIKit
 
 class TodayMultiplyCell: BaseTodayCell {
-    
+
     override var todayItem: TodayItem! {
         didSet {
             categoryLabel.text = todayItem.category
@@ -24,7 +24,7 @@ class TodayMultiplyCell: BaseTodayCell {
         label.font = .boldSystemFont(ofSize: 20)
         return label
     }()
-    
+
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Utilazing your Time"
@@ -32,21 +32,21 @@ class TodayMultiplyCell: BaseTodayCell {
         label.font = .boldSystemFont(ofSize: 28)
         return label
     }()
-    
+
     let multiplyCellVC = MultiplyController(mode: .small)
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         layer.cornerRadius = 16
         setConstraints()
     }
-    
-    private func setConstraints(){
+
+    private func setConstraints() {
         let stack = VerticalStackView(arrangedSubviews: [
             categoryLabel, titleLabel, multiplyCellVC.view
         ], spacing: 10)
         addSubview(stack)
-        
+
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(equalTo: self.topAnchor, constant: 24),
             stack.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 24),
@@ -54,9 +54,8 @@ class TodayMultiplyCell: BaseTodayCell {
             stack.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -24)
         ])
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError()
     }
-    
 }

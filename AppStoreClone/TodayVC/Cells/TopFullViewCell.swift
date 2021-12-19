@@ -8,15 +8,15 @@
 import UIKit
 
 class TopFullViewCell: UITableViewCell {
-    
+
     let todayCell = TodayCell()
-    
+
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setConstraints()
     }
-    
-    func setConstraints(){
+
+    func setConstraints() {
         todayCell.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(todayCell)
         NSLayoutConstraint.activate([
@@ -26,9 +26,7 @@ class TopFullViewCell: UITableViewCell {
             todayCell.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
-    
 
-    
     required init?(coder: NSCoder) {
         fatalError()
     }

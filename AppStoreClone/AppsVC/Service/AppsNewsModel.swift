@@ -7,7 +7,6 @@
 
 import Foundation
 
-
 struct AppsNewsModel: Decodable {
     let id: String
     let name: String

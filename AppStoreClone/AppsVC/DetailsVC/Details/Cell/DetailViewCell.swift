@@ -8,8 +8,8 @@
 import UIKit
 
 class DetailViewCell: UICollectionViewCell {
-    
-    var details: Results?{
+
+    var details: Results? {
         didSet {
             iconImage.sd_setImage(with: URL(string: details?.artworkUrl100 ?? ""))
             nameLabel.text = details?.trackName
@@ -17,16 +17,16 @@ class DetailViewCell: UICollectionViewCell {
             priceButton.setTitle(details?.formattedPrice, for: .normal)
         }
     }
-    
+
     let iconImage: UIImageView = {
-        let iv = UIImageView()
-        iv.layer.cornerRadius = 12
-        iv.clipsToBounds = true
-        iv.widthAnchor.constraint(equalToConstant: 140).isActive = true
-        iv.heightAnchor.constraint(equalToConstant: 140).isActive = true
-        return iv
+        let icon = UIImageView()
+        icon.layer.cornerRadius = 12
+        icon.clipsToBounds = true
+        icon.widthAnchor.constraint(equalToConstant: 140).isActive = true
+        icon.heightAnchor.constraint(equalToConstant: 140).isActive = true
+        return icon
     }()
-    
+
     let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "App name"
@@ -34,7 +34,7 @@ class DetailViewCell: UICollectionViewCell {
         label.numberOfLines = 2
         return label
     }()
-    
+
     let notesLabel: UILabel = {
         let label = UILabel()
         label.text = "text about new cool things in app"
@@ -42,7 +42,7 @@ class DetailViewCell: UICollectionViewCell {
         label.numberOfLines = 0
         return label
     }()
-    
+
     let whatsNewLabel: UILabel = {
         let label = UILabel()
         label.text = "What's new"
@@ -50,7 +50,7 @@ class DetailViewCell: UICollectionViewCell {
         label.numberOfLines = 1
         return label
     }()
-    
+
     let priceButton: UIButton = {
         let button = UIButton(type: .system)
         button.backgroundColor = .systemBlue
@@ -60,13 +60,13 @@ class DetailViewCell: UICollectionViewCell {
         button.heightAnchor.constraint(equalToConstant: 32).isActive = true
         return button
     }()
-    
+
     override init(frame: CGRect) {
         super.init(frame: frame)
         setConstraints()
     }
-    
-    func setConstraints(){
+
+    func setConstraints() {
         let nameAndIconStack = UIStackView(arrangedSubviews: [
         iconImage,
         VerticalStackView(arrangedSubviews: [nameLabel,
@@ -77,7 +77,7 @@ class DetailViewCell: UICollectionViewCell {
         nameAndIconStack, whatsNewLabel, notesLabel
         ], spacing: 12)
         contentView.addSubview(stack)
-        
+
         NSLayoutConstraint.activate([
             stack.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16),
             stack.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
@@ -86,8 +86,7 @@ class DetailViewCell: UICollectionViewCell {
             priceButton.widthAnchor.constraint(equalToConstant: 70)
         ])
     }
-    
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
